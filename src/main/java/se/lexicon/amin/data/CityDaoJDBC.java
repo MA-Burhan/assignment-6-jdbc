@@ -125,8 +125,8 @@ public class CityDaoJDBC implements CityDao {
         List<City> result = new ArrayList<>();
         try (
                 Connection connection = Database.getConnection();
-                PreparedStatement statement = connection.prepareStatement(QUERY_CITY_TABLE);
-                ResultSet resultSet = statement.executeQuery()
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(QUERY_CITY_TABLE)
         ) {
 
             while (resultSet.next()) {
