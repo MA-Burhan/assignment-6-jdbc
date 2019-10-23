@@ -9,28 +9,45 @@ import java.util.Optional;
 
 public class CityDaoJDBC implements CityDao {
 
-    private static final String QUERY_CITY_TABLE = "SELECT * FROM city ";
-    private static final String FIND_BY_ID = "WHERE id = ?";
-    private static final String FIND_BY_COUNTRY_CODE = "WHERE countrycode = ?";
-    private static final String FIND_BY_NAME = "WHERE name = ?";
+    private static final String TABLE_CITY = "city";
+    private static final String COLUMN_CITY_ID = "id";
+    private static final String COLUMN_CITY_NAME = "name";
+    private static final String COLUMN_CITY_COUNTRYCODE = "countrycode";
+    private static final String COLUMN_CITY_DISTRICT = "district";
+    private static final String COLUMN_CITY_POPULATION = "population";
 
-    private static final String ADD = "INSERT INTO city (name, countrycode, district, population) VALUES(?, ?, ?, ?)";
+    private static final String QUERY_CITY_TABLE = "SELECT * FROM " + TABLE_CITY + " ";
+    private static final String FIND_BY_ID = "WHERE " + COLUMN_CITY_ID + " = ?";
+    private static final String FIND_BY_COUNTRY_CODE = "WHERE " + COLUMN_CITY_COUNTRYCODE + " = ?";
+    private static final String FIND_BY_NAME = "WHERE " + COLUMN_CITY_NAME + " = ?";
 
-    private static final String UPDATE = "UPDATE city SET name = ?, countrycode = ?, district = ?, population = ? " +
-            "WHERE person_id = ?";
+    private static final String ADD = "INSERT INTO " + TABLE_CITY + " (" +
+                                    COLUMN_CITY_NAME + ", " +
+                                    COLUMN_CITY_COUNTRYCODE + ", " +
+                                    COLUMN_CITY_DISTRICT + ", " +
+                                    COLUMN_CITY_POPULATION +
+                                    ") VALUES(?, ?, ?, ?)";
 
-    private static final String DELETE = "DELETE FROM city WHERE id = ?";
+    private static final String UPDATE = "UPDATE " + TABLE_CITY + " SET " +
+                                        COLUMN_CITY_NAME + " = ?, " +
+                                        COLUMN_CITY_COUNTRYCODE + " = ?, " +
+                                        COLUMN_CITY_DISTRICT + " = ?, " +
+                                        COLUMN_CITY_POPULATION + " = ? " +
+                                        "WHERE " + COLUMN_CITY_ID + " = ?";
+
+    private static final String DELETE = "DELETE FROM " + TABLE_CITY + " WHERE " + COLUMN_CITY_ID + " = ?";
 
 
     private City createCityObject(ResultSet resultSet) throws SQLException {
         return new City(
-                resultSet.getInt("id"),
-                resultSet.getString("name"),
-                resultSet.getString("countrycode"),
-                resultSet.getString("district"),
-                resultSet.getInt("population")
+                resultSet.getInt(COLUMN_CITY_ID),
+                resultSet.getString(COLUMN_CITY_NAME),
+                resultSet.getString(COLUMN_CITY_COUNTRYCODE),
+                resultSet.getString(COLUMN_CITY_DISTRICT),
+                resultSet.getInt(COLUMN_CITY_POPULATION)
         );
     }
+
 
     private PreparedStatement createFindById(Connection connection, int id) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(QUERY_CITY_TABLE + FIND_BY_ID);
@@ -149,52 +166,6 @@ public class CityDaoJDBC implements CityDao {
         return statement;
     }
 
-//    @Override
-//    public City add(City city) {
-//        if (city.getId() != 0) {
-//            return city;
-//        }
-//
-//        Connection connection = null;
-//        PreparedStatement statement = null;
-//        ResultSet resultSet = null;
-//
-//        try {
-//            connection = Database.getConnection();
-//            statement = createAdd(connection, city);
-//            statement.executeUpdate();
-//            resultSet = statement.getGeneratedKeys();
-//
-//            int cityId = 0;
-//            while (resultSet.next()) {
-//                cityId = resultSet.getInt(1);
-//            }
-//
-//
-//            city = new City(cityId, city.getName(), city.getCountryCode(), city.getDistrict(), city.getPopulation());                      //personId taken from getGeneratedKeys()
-//
-//
-//        } catch (SQLException ex) {
-//            ex.printStackTrace();
-//        } finally {
-//            try {
-//                if (resultSet != null) {
-//                    resultSet.close();
-//                }
-//                if (statement != null) {
-//                    statement.close();
-//                }
-//                if (connection != null) {
-//                    connection.close();
-//                }
-//            } catch (SQLException ex) {
-//                ex.printStackTrace();
-//            }
-//        }
-//
-//        return city;
-//
-//    }
 
     public City add(City city) {
         if (city.getId() != 0) {
