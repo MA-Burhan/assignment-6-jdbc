@@ -2,6 +2,7 @@ package se.lexicon.amin;
 
 
 import se.lexicon.amin.data.CityDaoJDBC;
+import se.lexicon.amin.data.Database;
 import se.lexicon.amin.model.City;
 
 import java.sql.SQLException;
@@ -14,7 +15,8 @@ public class App
     public static void main( String[] args ) throws SQLException {
 
 
-        CityDaoJDBC test = new CityDaoJDBC();
+       // Database.getConnection();
+       // CityDaoJDBC test = new CityDaoJDBC();
 
         //findById - OK
 

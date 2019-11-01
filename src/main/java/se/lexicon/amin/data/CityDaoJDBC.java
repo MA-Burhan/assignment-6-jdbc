@@ -144,6 +144,10 @@ public class CityDaoJDBC implements CityDao {
                 Connection connection = Database.getConnection();
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(QUERY_CITY_TABLE)
+                /*
+                PreparedStatement statement = connection.prepareStatement(QUERY_CITY_TABLE);
+                ResultSet resultSet = statement.executeQuery();
+                 */
         ) {
 
             while (resultSet.next()) {

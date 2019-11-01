@@ -1,15 +1,32 @@
 package se.lexicon.amin.data;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class Database {
 
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/world?&autoReconnect=true" +
-                                        "&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static final String USER = "devuser";
-    private static final String PASSWORD = "1234";
+    private static final String DB_URL;
+    private static final String USER;
+    private static final String PASSWORD;
+
+static {
+
+    Properties properties = new Properties();
+
+    try(FileInputStream inputStream = new FileInputStream("database.properties")) {
+        properties.load(inputStream);
+    }  catch (IOException e) {
+        e.printStackTrace();
+    }
+
+    DB_URL = properties.getProperty("url");
+    USER = properties.getProperty("user");
+    PASSWORD = properties.getProperty("password");
+}
 
 
     public static Connection getConnection() throws SQLException {
